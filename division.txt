@@ -1,2 +1,3 @@
 Implementar division
 Division cero 
+Actualizar Juanita
