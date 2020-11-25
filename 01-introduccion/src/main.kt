@@ -120,8 +120,9 @@ fun imprimirNombre(nombre:String) {
 
 fun calcularSueldo(
     sueldo : Double, //requerido
-    tasa: Double=12.00, //Opcionales
-    calculoEspecial: Int?=null //Variables que peuden ser Null
+    tasa:Double=12.00, //Opcionales
+    calculoEspecial: Int?=null
+        //Variables que peuden ser Null
 ): Double{
     //String ->String?
     //Int -> int?
