@@ -94,7 +94,7 @@ fun main(){ //incio dle MAIN
 
     val respuestaMap2: List<Int> = arregloDinamico
         // .map{i->i+15}
-        .map { it-> +15 }
+        .map { it + 15 }
     println(respuestaMap2)
 
 
@@ -110,7 +110,182 @@ fun main(){ //incio dle MAIN
         }
     println(respuestaFilter)
 
+
+
+    //ANY All -> Condición --> Bollean
+    //or <-> and
+    //or = any
+    // or (falso - todos son falsos es falso)
+    // and= all
+
+    val respuestaAny : Boolean = arregloDinamico
+            .any{
+                valorActualIteracion ->
+                return@any  (valorActualIteracion >5)
+            }
+    println(respuestaAny) // true
+
+    val respuestaAll : Boolean = arregloDinamico
+            .all{
+                valorActualIteracion ->
+                return@all  valorActualIteracion >5
+            }
+    println(respuestaAll) // false
+
+
+    //REDUCE
+    //1) Devuelve el acumulado
+    //2)En que valor empieza
+    //0=0+1
+    //1=1+2
+    //3=3+3
+    //6=6+4
+    //10=10+5
+    //15
+
+    val respuestaFitler: Int = arregloDinamico
+            .reduce{ // valor incial 0
+                acumulado, valorActualIteracion ->
+                return@reduce  acumulado+valorActualIteracion
+
+            }
+    println(respuestaFitler)
+
+
+
+
+    val respuestaReduceFold = arregloDinamico
+            .fold(
+                    100,
+                    {
+                        acumulado, valorActualIteracion ->
+                        return@fold acumulado-valorActualIteracion
+                    }
+            )
+    println(respuestaReduceFold)
+
+
+    //arregloMutable.fold (empieza desde el principio)
+    //arregloMutable.foldRight (empieza desde el final)
+    //arregloMutable.reduce (empieza desde el final)
+    //arregloMutable.reduceRight (empeiza desde el final)
+
+    //OPERADORES
+    // forEach -> Unit (void)
+    // map -> Arreglo
+    // filter -> Arreglo
+    // all-> Booleano
+    // any -> Booleano
+    // reduce ->valor
+    // fold ->Valor
+
+
+    val vidaActual: Double = arregloDinamico
+            .map{it * 2.3}//arreglo
+            .filter { it > 20 }//arreglo
+            .fold(100.00, {acc, i -> acc -i})//valor
+            .also{ println(it) } //ejeccutar codigo extra
+    println("Valor vida actual ${vidaActual}")
+
+
+    val ejemploUno = Suma(1,2)
+    val ejemploDos = Suma(null,2)
+    val ejemploTres = Suma (1,null)
+    val ejemploCuatro = Suma (null,null)
+
+    println(ejemploUno.sumar())
+    println(Suma.historialSumas)
+    println(ejemploDos.sumar())
+    println(Suma.historialSumas)
+    println(ejemploTres.sumar())
+    println(Suma.historialSumas)
+    println(ejemploCuatro.sumar())
+    println(Suma.historialSumas)
+
 }//FIND EL MAIN
+
+abstract class NumerosJav{
+    protected val numeroUno:Int
+    private val numeroDos:Int
+    constructor(//constructor primario
+        uno:Int,
+        dos: Int
+    ){//Bloque  de codigo del constructor primario
+        //this.numeroUno
+        numeroUno = uno
+        //this.numeroDos
+        numeroDos= dos
+    }
+}
+
+abstract class Numeros(  //Constructor Primario
+    protected var numeroUno:Int,
+    protected var numeroDos:Int
+){
+    init { //BLOQUE de costructor prmario
+        println("Hola")
+    }
+}
+
+class Suma(
+    uno: Int,  //Parametros
+    dos: Int   //parametros
+):Numeros(uno,dos){
+    init {
+        //this.numeroDos
+        //this.numeroUno
+        //X-> this.uno ->NO EXISTE
+        //X-> this.dos ->NO EXISTE
+    }
+
+    constructor(//Segundo Constructor
+            uno: Int?, //parametros
+            dos: Int //parametros
+    ): this ( //llamada constructor primario
+            if(uno==null)0 else uno,
+            dos
+    ){
+
+    }
+
+    constructor(//Tercer Constructor
+            uno: Int, //parametros
+            dos: Int? //parametros
+    ): this ( //llamada constructor primario
+            uno,
+            if(dos==null)0 else dos
+    ){
+
+    }
+
+    constructor(//Cuarto Constructor
+            uno: Int?, //parametros
+            dos: Int? //parametros
+    ): this ( //llamada constructor primario
+            if(uno==null)0 else dos,
+            if(dos==null)0 else dos
+    ){
+
+    }
+
+    public fun sumar():Int{
+        val total:Int = numeroUno+ numeroDos
+        Suma.agregarHistorial(total)
+        return total
+    }
+
+    //SINGLETON
+    companion object{//Metodos y Propeidades
+        val historialSumas = arrayListOf<Int>()
+        fun agregarHistorial(nuevaSuma: Int){
+            this.historialSumas.add(nuevaSuma)
+        }
+
+    }
+
+}
+
+
 
 
 fun imprimirNombre(nombre:String) {
@@ -134,3 +309,11 @@ fun calcularSueldo(
     }
 
 }
+
+class BaseDeDatos(){
+    companion object{
+        val datos = arrayListOf<Int>()
+    }
+}
+
+//BaseDeDatos.datos
